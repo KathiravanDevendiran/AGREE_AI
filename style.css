@@ -1,258 +1,360 @@
-/* General styles */
-body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: #f6f9f4;
-    color: #222;
-    margin: 0;
-    padding: 0;
-}
+/* ======= MODERN AGRISTACK DASHBOARD THEME ======= */
 
-h1 {
-    text-align: center;
-    margin-top: 30px;
-    color: #388e3c;
-    font-size: 2.5rem;
-    letter-spacing: 1px;
-}
-
-p {
-    text-align: center;
-    font-size: 1.1rem;
-}
-
-label {
-    display: block;
-    margin: 30px auto 10px auto;
-    text-align: center;
-    font-weight: 500;
-    font-size: 1.1rem;
-}
-
-select {
-    display: block;
-    margin: 0 auto 30px auto;
-    padding: 8px 16px;
-    border-radius: 6px;
-    border: 1px solid #bdbdbd;
-    font-size: 1rem;
-    background: #fff;
-    color: #222;
-    transition: border 0.2s;
-}
-
-select:focus {
-    border: 1.5px solid #388e3c;
-    outline: none;
-}
-
-.field-status {
-    background: #e8f5e9;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(56, 142, 60, 0.08);
-    max-width: 400px;
-    margin: 0 auto 30px auto;
-    padding: 24px 32px;
-}
-
-.field-status h2 {
-    color: #2e7d32;
-    margin-bottom: 18px;
-    text-align: center;
-}
-
-.field-status p {
-    margin: 10px 0;
-    font-size: 1.08rem;
-    text-align: left;
-}
-
-.chart-container {
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(56, 142, 60, 0.08);
-    margin: 0 auto 30px auto;
-    padding: 20px 10px 10px 10px;
-    max-width: 440px;
-}
-
-footer {
-    background: #388e3c;
-    color: #fff;
-    text-align: center;
-    padding: 16px 0;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
-    left: 0;
-    font-size: 1rem;
-    letter-spacing: 0.5px;
-    box-shadow: 0 -2px 8px rgba(56, 142, 60, 0.08);
-}
-
-/* Add to style.css */
-.header {
-    width: 100%;
-    background: linear-gradient(90deg, #388e3c 60%, #43a047 100%);
-    color: #fff;
-    padding: 32px 0 18px 0;
-    border-radius: 0 0 32px 32px;
-    box-shadow: 0 4px 16px rgba(56,142,60,0.10);
-    margin-bottom: 24px;
-    text-align: center;
-}
-.header h1 {
-    margin: 0;
-    font-size: 2.7rem;
-    letter-spacing: 2px;
-}
-.header p {
-    margin: 10px 0 0 0;
-    font-size: 1.2rem;
-    letter-spacing: 1px;
-}
-
-/* Make the site fit the window and use available space */
-html,
-body {
+/* Reset and base styles */
+html, body {
     height: 100%;
-    min-height: 100%;
     margin: 0;
     padding: 0;
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #e0f7fa 0%, #f1f8e9 100%);
+    color: #222;
     box-sizing: border-box;
 }
 
-body {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    background: #f6f9f4;
+/* Header with glass effect */
+.header {
+    width: 100%;
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 8px 32px rgba(56,142,60,0.10);
+    border-bottom: 2px solid #b2dfdb;
+    padding: 32px 0 18px 0;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+.header h1 {
+    margin: 0;
+    font-size: 2.8rem;
+    letter-spacing: 2px;
+    color: #009688;
+    font-weight: 800;
+    text-shadow: 0 2px 8px #b2dfdb;
+}
+.header p {
+    margin: 10px 0 0 0;
+    font-size: 1.15rem;
+    color: #388e3c;
+    font-weight: 500;
+    letter-spacing: 1px;
 }
 
-main {
-    flex: 1 0 auto;
+/* Dashboard layout: sidebar and main */
+.dashboard-layout {
+    display: flex;
+    min-height: 90vh;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    gap: 0;
+}
+
+/* Sidebar: vertical, icon-based, modern */
+.sidebar {
+    width: 90px;
+    background: linear-gradient(180deg, #009688 60%, #43a047 100%);
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    width: 100%;
-    max-width: 900px;
-    margin: 0 auto;
-    padding-bottom: 40px;
+    padding: 32px 0;
+    border-radius: 0 32px 32px 0;
+    box-shadow: 2px 0 16px rgba(56,142,60,0.10);
+    min-height: 700px;
+    position: sticky;
+    top: 0;
 }
-
-/* Adjust footer to always stay at the bottom */
-footer {
-    flex-shrink: 0;
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
     width: 100%;
-    background: #388e3c;
-    color: #fff;
+}
+.sidebar li {
+    width: 100%;
+    padding: 22px 0;
     text-align: center;
-    padding: 16px 0;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    border-right: 4px solid transparent;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
     position: relative;
-    left: 0;
-    bottom: 0;
-    font-size: 1rem;
-    letter-spacing: 0.5px;
-    box-shadow: 0 -2px 8px rgba(56, 142, 60, 0.08);
+}
+.sidebar li.active,
+.sidebar li:hover {
+    background: rgba(255,255,255,0.13);
+    color: #ffd600;
+    border-right: 4px solid #ffd600;
+}
+.sidebar li::after {
+    content: attr(data-label);
+    display: block;
+    font-size: 0.85rem;
+    color: #fff;
+    opacity: 0.7;
+    margin-top: 6px;
+    letter-spacing: 1px;
 }
 
-/* Task list styles */
+/* Main content area */
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    padding: 40px 4vw 60px 4vw;
+    min-width: 0;
+    gap: 32px;
+}
+
+/* Card style for all sections */
+.section-card {
+    background: rgba(255,255,255,0.92);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(33,150,243,0.10);
+    margin: 0 auto;
+    padding: 36px 40px;
+    width: 100%;
+    max-width: 600px;
+    transition: box-shadow 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+.section-card::before {
+    content: "";
+    position: absolute;
+    top: -40px; left: -40px;
+    width: 120px; height: 120px;
+    background: radial-gradient(circle, #b2dfdb 0%, transparent 80%);
+    z-index: 0;
+}
+.section-card:hover {
+    box-shadow: 0 16px 48px rgba(33,150,243,0.18);
+    transform: translateY(-2px) scale(1.01);
+}
+.section-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* Field status with icons */
+.field-status h2 {
+    color: #009688;
+    margin-bottom: 18px;
+    text-align: center;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+.field-status p {
+    margin: 12px 0;
+    font-size: 1.13rem;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.field-status strong {
+    color: #388e3c;
+    font-weight: 700;
+}
+
+/* Chart container */
+.chart-container {
+    background: rgba(224,247,250,0.7);
+    border-radius: 18px;
+    box-shadow: 0 2px 8px rgba(33,150,243,0.08);
+    margin: 0 auto 30px auto;
+    padding: 24px 10px 10px 10px;
+    max-width: 540px;
+}
+
+/* Weather widget */
+.weather-widget {
+    background: #e3f2fd;
+    border-radius: 18px;
+    margin: 0 auto 30px auto;
+    padding: 24px 32px;
+    box-shadow: 0 2px 8px rgba(33, 150, 243, 0.08);
+}
+.weather-widget h3 {
+    color: #1976d2;
+    margin-bottom: 10px;
+    text-align: center;
+    font-weight: 700;
+}
+.weather-widget ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.weather-widget li {
+    font-size: 1.08rem;
+    margin: 8px 0;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Task list */
 .task-list {
     background: #fffde7;
-    border-radius: 10px;
-    max-width: 400px;
+    border-radius: 18px;
+    max-width: 540px;
     margin: 0 auto 30px auto;
-    padding: 16px 24px;
+    padding: 24px 32px;
     box-shadow: 0 2px 8px rgba(251, 192, 45, 0.08);
 }
-
 .task-list h3 {
     color: #fbc02d;
     margin-bottom: 10px;
     text-align: center;
+    font-weight: 700;
 }
-
 .task-list input {
-    width: 70%;
-    padding: 6px;
-    border-radius: 5px;
-    border: 1px solid #fbc02d;
+    width: 65%;
+    padding: 8px;
+    border-radius: 7px;
+    border: 1.5px solid #fbc02d;
     margin-right: 8px;
+    font-size: 1rem;
 }
-
 .task-list button {
-    padding: 6px 12px;
-    border-radius: 5px;
+    padding: 8px 16px;
+    border-radius: 7px;
     border: none;
     background: #fbc02d;
     color: #fff;
     font-weight: bold;
     cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.2s;
 }
-
+.task-list button:hover {
+    background: #ffd600;
+    color: #222;
+}
 .task-list ul {
     list-style: none;
     padding: 0;
-    margin: 10px 0 0 0;
+    margin: 14px 0 0 0;
 }
-
 .task-list li {
-    font-size: 1.05rem;
-    margin: 6px 0;
+    font-size: 1.08rem;
+    margin: 8px 0;
     cursor: pointer;
     transition: color 0.2s;
+    padding-left: 8px;
 }
-
 .task-list li.done {
     text-decoration: line-through;
     color: #aaa;
 }
 
-/* Section card styles */
-.section-card {
-    background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 4px 16px rgba(56, 142, 60, 0.10);
-    margin: 24px 0;
-    padding: 28px 32px;
+/* Soil quality, irrigation, yield, map */
+.soil-quality, .irrigation-scheduler, .yield-prediction, .field-map {
+    background: #f3e5f5;
+    border-radius: 18px;
+    margin: 0 auto 30px auto;
+    padding: 24px 32px;
+    box-shadow: 0 2px 8px rgba(156, 39, 176, 0.08);
+}
+.soil-quality h3,
+.irrigation-scheduler h3,
+.yield-prediction h3,
+.field-map h3 {
+    color: #8e24aa;
+    margin-bottom: 10px;
+    text-align: center;
+    font-weight: 700;
+}
+.field-map img {
     width: 100%;
-    max-width: 500px;
-    transition: transform 0.2s, box-shadow 0.2s;
-    opacity: 0;
-    transform: translateY(40px);
-    animation: fadeInUp 0.7s forwards;
+    border-radius: 10px;
+    margin-top: 12px;
+    box-shadow: 0 2px 8px rgba(33,150,243,0.10);
 }
 
-.section-card:nth-child(1) { animation-delay: 0.1s; }
-.section-card:nth-child(2) { animation-delay: 0.2s; }
-.section-card:nth-child(3) { animation-delay: 0.3s; }
-.section-card:nth-child(4) { animation-delay: 0.4s; }
-.section-card:nth-child(5) { animation-delay: 0.5s; }
-.section-card:nth-child(6) { animation-delay: 0.6s; }
-.section-card:nth-child(7) { animation-delay: 0.7s; }
-.section-card:nth-child(8) { animation-delay: 0.8s; }
-
-@keyframes fadeInUp {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+/* Label and select styling */
+label {
+    display: block;
+    margin: 24px auto 10px auto;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.08rem;
+    color: #009688;
+    letter-spacing: 1px;
+}
+select {
+    display: block;
+    margin: 0 auto 24px auto;
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: 1.5px solid #b2dfdb;
+    font-size: 1.08rem;
+    background: #fff;
+    color: #222;
+    transition: border 0.2s;
+}
+select:focus {
+    border: 2px solid #009688;
+    outline: none;
 }
 
-.section-card:hover {
-    transform: translateY(-4px) scale(1.01);
-    box-shadow: 0 8px 24px rgba(56, 142, 60, 0.18);
+/* Footer */
+footer {
+    background: #009688;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+    box-shadow: 0 -2px 8px rgba(56, 142, 60, 0.08);
+    border-radius: 32px 32px 0 0;
+    margin-top: 40px;
 }
 
-/* Responsive adjustments */
-@media (max-width: 600px) {
-    main {
+/* Responsive design */
+@media (max-width: 900px) {
+    .dashboard-layout {
+        flex-direction: column;
         max-width: 100vw;
-        padding: 0 2vw 40px 2vw;
     }
-
-    .field-status,
+    .sidebar {
+        flex-direction: row;
+        width: 100vw;
+        min-height: unset;
+        border-radius: 0 0 32px 32px;
+        box-shadow: 0 2px 8px rgba(56,142,60,0.08);
+        padding: 0;
+        position: static;
+    }
+    .sidebar ul {
+        display: flex;
+        flex-direction: row;
+        width: 100vw;
+        justify-content: space-around;
+    }
+    .sidebar li {
+        border-right: none;
+        border-bottom: 4px solid transparent;
+        padding: 18px 0;
+        font-size: 1.3rem;
+    }
+    .sidebar li.active,
+    .sidebar li:hover {
+        background: rgba(255,255,255,0.13);
+        color: #ffd600;
+        border-bottom: 4px solid #ffd600;
+        border-right: none;
+    }
+    main {
+        padding: 24px 2vw 40px 2vw;
+        gap: 18px;
+    }
+    .section-card,
     .chart-container,
     .weather-widget,
     .task-list,
@@ -261,48 +363,11 @@ footer {
     .yield-prediction,
     .field-map {
         max-width: 98vw;
-        padding: 10px 2vw;
+        padding: 14px 2vw;
     }
-
-    h1 {
+    .header h1 {
         font-size: 2rem;
     }
 }
 
-@media (min-width: 900px) {
-    .dashboard-layout {
-        display: flex;
-        flex-direction: row;
-        align-items: flex-start;
-        width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-    .sidebar {
-        width: 220px;
-        background: #e8f5e9;
-        border-radius: 16px;
-        margin-right: 32px;
-        padding: 24px 0;
-        box-shadow: 0 2px 8px rgba(56,142,60,0.08);
-        min-height: 600px;
-    }
-    .sidebar ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-    .sidebar li {
-        padding: 16px 32px;
-        font-size: 1.1rem;
-        color: #388e3c;
-        cursor: pointer;
-        border-left: 4px solid transparent;
-        transition: background 0.2s, border-color 0.2s;
-    }
-    .sidebar li.active,
-    .sidebar li:hover {
-        background: #c8e6c9;
-        border-left: 4px solid #388e3c;
-    }
-}
+/* ======= END MODERN
