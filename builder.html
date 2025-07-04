@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AgriStack Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="main.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="header">
+        <h1>🌾 AgriStack Dashboard</h1>
+        <p>விவசாய நிலத்தின் நிலைமையை பாருங்கள்!</p>
+    </div>
+    <div class="dashboard-layout">
+        <nav class="sidebar">
+            <ul>
+                <li class="active" id="nav-overview">Overview</li>
+                <li id="nav-weather">Weather</li>
+                <li id="nav-tasks">Tasks</li>
+                <li id="nav-soil">Soil</li>
+                <li id="nav-irrigation">Irrigation</li>
+                <li id="nav-yield">Yield</li>
+                <li id="nav-map">Map</li>
+            </ul>
+        </nav>
+        <main>
+            <div class="dashboard-section" id="section-overview">
+                <div class="section-card">
+                    <label for="fieldSelect">Select Field:</label>
+                    <select id="fieldSelect">
+                        <option>Field 1</option>
+                        <option>Field 2</option>
+                        <option>Field 3</option>
+                    </select>
+                    <div class="field-status">
+                        <h2>Field Health Summary</h2>
+                        <p>🛰 NDVI: <strong id="ndviVal">0.72</strong> – Healthy 🌿</p>
+                        <p>💧 Water Stress: <strong id="waterVal">Low</strong></p>
+                        <p>🌡️ Temperature: <strong id="tempVal">28°C</strong></p>
+                        <p>🌧️ Rainfall (last 24h): <strong id="rainVal">12mm</strong></p>
+                        <p>🐛 Pest Alert: <strong id="pestVal">None</strong></p>
+                        <p id="aiVal">AI Suggestion: “நீர் அளவை சீராக பராமரிக்கவும்.”</p>
+                    </div>
+                </div>
+                <div class="section-card chart-container" style="width: 100%; max-width: 500px;">
+                    <canvas id="ndviChart"></canvas>
+                </div>
+            </div>
+            <div class="dashboard-section" id="section-weather" style="display:none;">
+                <div class="section-card weather-widget">
+                    <h3>3-Day Weather Forecast</h3>
+                    <ul id="weatherForecast">
+                        <li>Mon: ☀️ 30°C</li>
+                        <li>Tue: 🌦️ 28°C</li>
+                        <li>Wed: 🌧️ 26°C</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="dashboard-section" id="section-tasks" style="display:none;">
+                <div class="section-card task-list">
+                    <h3>Today's Tasks</h3>
+                    <input type="text" id="taskInput" placeholder="Add new task..." />
+                    <button id="addTaskBtn">Add</button>
+                    <ul id="tasks"></ul>
+                </div>
+            </div>
+            <div class="dashboard-section" id="section-soil" style="display:none;">
+                <div class="section-card soil-quality">
+                    <h3>Soil Quality</h3>
+                    <p>pH: <strong id="phVal">6.8</strong></p>
+                    <p>Nitrogen: <strong id="nVal">High</strong></p>
+                    <p>Phosphorus: <strong id="pVal">Medium</strong></p>
+                    <p>Potassium: <strong id="kVal">Low</strong></p>
+                </div>
+            </div>
+            <div class="dashboard-section" id="section-irrigation" style="display:none;">
+                <div class="section-card irrigation-scheduler">
+                    <h3>Irrigation Scheduler</h3>
+                    <p>Next irrigation: <strong>Tomorrow, 6:00 AM</strong></p>
+                    <button>View Schedule</button>
+                </div>
+            </div>
+            <div class="dashboard-section" id="section-yield" style="display:none;">
+                <div class="section-card yield-prediction">
+                    <h3>Yield Prediction</h3>
+                    <p>Estimated Yield: <strong>3.2 tons/acre</strong></p>
+                </div>
+            </div>
+            <div class="dashboard-section" id="section-map" style="display:none;">
+                <div class="section-card field-map">
+                    <h3>Field Map</h3>
+                    <img src="field-map-demo.png" alt="Field Map" style="width:100%;border-radius:8px;">
+                </div>
+            </div>
+        </main>
+    </div>
+    <footer>
+        <p>&copy; 2025 AgriStack. All rights reserved.</p>
+    </footer>
+</body>
+</html>

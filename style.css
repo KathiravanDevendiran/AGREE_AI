@@ -1,0 +1,308 @@
+/* General styles */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f6f9f4;
+    color: #222;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 30px;
+    color: #388e3c;
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+}
+
+p {
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+label {
+    display: block;
+    margin: 30px auto 10px auto;
+    text-align: center;
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+select {
+    display: block;
+    margin: 0 auto 30px auto;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: 1px solid #bdbdbd;
+    font-size: 1rem;
+    background: #fff;
+    color: #222;
+    transition: border 0.2s;
+}
+
+select:focus {
+    border: 1.5px solid #388e3c;
+    outline: none;
+}
+
+.field-status {
+    background: #e8f5e9;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(56, 142, 60, 0.08);
+    max-width: 400px;
+    margin: 0 auto 30px auto;
+    padding: 24px 32px;
+}
+
+.field-status h2 {
+    color: #2e7d32;
+    margin-bottom: 18px;
+    text-align: center;
+}
+
+.field-status p {
+    margin: 10px 0;
+    font-size: 1.08rem;
+    text-align: left;
+}
+
+.chart-container {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(56, 142, 60, 0.08);
+    margin: 0 auto 30px auto;
+    padding: 20px 10px 10px 10px;
+    max-width: 440px;
+}
+
+footer {
+    background: #388e3c;
+    color: #fff;
+    text-align: center;
+    padding: 16px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    box-shadow: 0 -2px 8px rgba(56, 142, 60, 0.08);
+}
+
+/* Add to style.css */
+.header {
+    width: 100%;
+    background: linear-gradient(90deg, #388e3c 60%, #43a047 100%);
+    color: #fff;
+    padding: 32px 0 18px 0;
+    border-radius: 0 0 32px 32px;
+    box-shadow: 0 4px 16px rgba(56,142,60,0.10);
+    margin-bottom: 24px;
+    text-align: center;
+}
+.header h1 {
+    margin: 0;
+    font-size: 2.7rem;
+    letter-spacing: 2px;
+}
+.header p {
+    margin: 10px 0 0 0;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+}
+
+/* Make the site fit the window and use available space */
+html,
+body {
+    height: 100%;
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background: #f6f9f4;
+}
+
+main {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding-bottom: 40px;
+}
+
+/* Adjust footer to always stay at the bottom */
+footer {
+    flex-shrink: 0;
+    width: 100%;
+    background: #388e3c;
+    color: #fff;
+    text-align: center;
+    padding: 16px 0;
+    position: relative;
+    left: 0;
+    bottom: 0;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    box-shadow: 0 -2px 8px rgba(56, 142, 60, 0.08);
+}
+
+/* Task list styles */
+.task-list {
+    background: #fffde7;
+    border-radius: 10px;
+    max-width: 400px;
+    margin: 0 auto 30px auto;
+    padding: 16px 24px;
+    box-shadow: 0 2px 8px rgba(251, 192, 45, 0.08);
+}
+
+.task-list h3 {
+    color: #fbc02d;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.task-list input {
+    width: 70%;
+    padding: 6px;
+    border-radius: 5px;
+    border: 1px solid #fbc02d;
+    margin-right: 8px;
+}
+
+.task-list button {
+    padding: 6px 12px;
+    border-radius: 5px;
+    border: none;
+    background: #fbc02d;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.task-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0 0;
+}
+
+.task-list li {
+    font-size: 1.05rem;
+    margin: 6px 0;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.task-list li.done {
+    text-decoration: line-through;
+    color: #aaa;
+}
+
+/* Section card styles */
+.section-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(56, 142, 60, 0.10);
+    margin: 24px 0;
+    padding: 28px 32px;
+    width: 100%;
+    max-width: 500px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    opacity: 0;
+    transform: translateY(40px);
+    animation: fadeInUp 0.7s forwards;
+}
+
+.section-card:nth-child(1) { animation-delay: 0.1s; }
+.section-card:nth-child(2) { animation-delay: 0.2s; }
+.section-card:nth-child(3) { animation-delay: 0.3s; }
+.section-card:nth-child(4) { animation-delay: 0.4s; }
+.section-card:nth-child(5) { animation-delay: 0.5s; }
+.section-card:nth-child(6) { animation-delay: 0.6s; }
+.section-card:nth-child(7) { animation-delay: 0.7s; }
+.section-card:nth-child(8) { animation-delay: 0.8s; }
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.section-card:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 8px 24px rgba(56, 142, 60, 0.18);
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    main {
+        max-width: 100vw;
+        padding: 0 2vw 40px 2vw;
+    }
+
+    .field-status,
+    .chart-container,
+    .weather-widget,
+    .task-list,
+    .soil-quality,
+    .irrigation-scheduler,
+    .yield-prediction,
+    .field-map {
+        max-width: 98vw;
+        padding: 10px 2vw;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+}
+
+@media (min-width: 900px) {
+    .dashboard-layout {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .sidebar {
+        width: 220px;
+        background: #e8f5e9;
+        border-radius: 16px;
+        margin-right: 32px;
+        padding: 24px 0;
+        box-shadow: 0 2px 8px rgba(56,142,60,0.08);
+        min-height: 600px;
+    }
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .sidebar li {
+        padding: 16px 32px;
+        font-size: 1.1rem;
+        color: #388e3c;
+        cursor: pointer;
+        border-left: 4px solid transparent;
+        transition: background 0.2s, border-color 0.2s;
+    }
+    .sidebar li.active,
+    .sidebar li:hover {
+        background: #c8e6c9;
+        border-left: 4px solid #388e3c;
+    }
+}
