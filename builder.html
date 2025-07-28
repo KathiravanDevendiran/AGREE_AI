@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>AgriStack Dashboard</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
     <script src="main.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -21,6 +22,7 @@
                 <li id="nav-soil">Soil</li>
                 <li id="nav-irrigation">Irrigation</li>
                 <li id="nav-yield">Yield</li>
+                <li id="nav-defect">Crop Defect Detection</li>
                 <li id="nav-map">Map</li>
             </ul>
         </nav>
@@ -87,6 +89,25 @@
                     <p>Estimated Yield: <strong>3.2 tons/acre</strong></p>
                 </div>
             </div>
+            <div class="dashboard-section" id="section-defect" style="display:none;">
+                <div class="section-card defect-detection">
+                    <h3>🔍 Crop Defect Detection</h3>
+                    <div class="upload-area">
+                        <input type="file" id="cropImage" accept="image/*" style="display:none;">
+                        <button id="uploadBtn" class="upload-button">📷 Upload Crop Image</button>
+                        <div id="imagePreview" style="display:none;">
+                            <img id="previewImg" style="max-width:300px;border-radius:8px;margin:10px 0;">
+                            <button id="analyzeBtn" class="analyze-button">🔬 Analyze Defects</button>
+                        </div>
+                    </div>
+                    <div id="analysisResults" style="display:none;">
+                        <h4>🎯 Detection Results</h4>
+                        <div id="defectsList"></div>
+                        <h4>💡 Recommended Solutions</h4>
+                        <div id="solutionsList"></div>
+                    </div>
+                </div>
+            </div>
             <div class="dashboard-section" id="section-map" style="display:none;">
                 <div class="section-card field-map">
                     <h3>Field Map</h3>
@@ -98,7 +119,16 @@
     <footer>
         <p>&copy; 2025 AgriStack. All rights reserved.</p>
     </footer>
-    <script>const fieldData = {
+    <script>
+        // Check authentication
+        if (!localStorage.getItem('userLoggedIn') || !localStorage.getItem('setupComplete')) {
+            window.location.href = 'index.html';
+        }
+
+        // Load farm data from setup
+        const farmData = JSON.parse(localStorage.getItem('farmData') || '{}');
+        
+        const fieldData = {
     "Field 1": {
         ndvi: 0.72, water: "Low", temp: "28°C", rain: "12mm", pest: "None", ai: "நீர் அளவை சீராக பராமரிக்கவும்.",
         chart: [0.65, 0.68, 0.7, 0.72, 0.71, 0.73, 0.72]
@@ -116,7 +146,23 @@
 let chartInstance;
 
 window.addEventListener('DOMContentLoaded', () => {
+    // Update field selector with user's fields
     const select = document.getElementById('fieldSelect');
+    select.innerHTML = '';
+    
+    if (farmData.fields) {
+        farmData.fields.forEach(field => {
+            const option = document.createElement('option');
+            option.value = field.name;
+            option.textContent = `${field.name} (${field.crop})`;
+            select.appendChild(option);
+        });
+    }
+    
+    // Update header with farm name
+    if (farmData.farmName) {
+        document.querySelector('.header h1').textContent = `🌾 ${farmData.farmName}`;
+    }
     const ndvi = document.querySelector('.field-status strong:nth-child(1)');
     const water = document.querySelector('.field-status p:nth-child(3) strong');
     const temp = document.querySelector('.field-status p:nth-child(4) strong');
@@ -184,6 +230,79 @@ document.addEventListener('DOMContentLoaded', function() {
             const section = document.getElementById(sectionId);
             if (section) section.style.display = '';
         });
+    });
+
+    // Crop defect detection functionality
+    const uploadBtn = document.getElementById('uploadBtn');
+    const cropImage = document.getElementById('cropImage');
+    const imagePreview = document.getElementById('imagePreview');
+    const previewImg = document.getElementById('previewImg');
+    const analyzeBtn = document.getElementById('analyzeBtn');
+    const analysisResults = document.getElementById('analysisResults');
+    const defectsList = document.getElementById('defectsList');
+    const solutionsList = document.getElementById('solutionsList');
+
+    const defectDatabase = {
+        'leaf_spot': {
+            name: 'Leaf Spot Disease',
+            solutions: ['Apply copper-based fungicide', 'Remove affected leaves', 'Improve air circulation']
+        },
+        'blight': {
+            name: 'Blight',
+            solutions: ['Use resistant varieties', 'Apply preventive fungicide', 'Ensure proper drainage']
+        },
+        'pest_damage': {
+            name: 'Pest Damage',
+            solutions: ['Apply organic pesticide', 'Use beneficial insects', 'Regular monitoring']
+        },
+        'nutrient_deficiency': {
+            name: 'Nutrient Deficiency',
+            solutions: ['Apply balanced fertilizer', 'Soil testing recommended', 'Adjust pH levels']
+        }
+    };
+
+    uploadBtn.addEventListener('click', () => cropImage.click());
+
+    cropImage.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImg.src = e.target.result;
+                imagePreview.style.display = 'block';
+                analysisResults.style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    analyzeBtn.addEventListener('click', function() {
+        // Simulate AI analysis
+        analyzeBtn.textContent = '🔄 Analyzing...';
+        analyzeBtn.disabled = true;
+        
+        setTimeout(() => {
+            const detectedDefects = ['leaf_spot', 'nutrient_deficiency'];
+            
+            defectsList.innerHTML = '';
+            solutionsList.innerHTML = '';
+            
+            detectedDefects.forEach(defectKey => {
+                const defect = defectDatabase[defectKey];
+                
+                const defectItem = document.createElement('div');
+                defectItem.innerHTML = `<p><strong>⚠️ ${defect.name}</strong> - Confidence: ${Math.floor(Math.random() * 20 + 80)}%</p>`;
+                defectsList.appendChild(defectItem);
+                
+                const solutionItem = document.createElement('div');
+                solutionItem.innerHTML = `<h5>${defect.name} Solutions:</h5><ul>${defect.solutions.map(sol => `<li>${sol}</li>`).join('')}</ul>`;
+                solutionsList.appendChild(solutionItem);
+            });
+            
+            analysisResults.style.display = 'block';
+            analyzeBtn.textContent = '🔬 Analyze Defects';
+            analyzeBtn.disabled = false;
+        }, 2000);
     });
 });</script>
 </body>
