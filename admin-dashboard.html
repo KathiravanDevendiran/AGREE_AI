@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AgriStack Admin Dashboard</title>
+    <link rel="stylesheet" href="admin-style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="admin-header">
+        <div class="header-left">
+            <h1>🏛️ AgriStack Admin Dashboard</h1>
+            <p id="adminInfo">Welcome, Admin</p>
+        </div>
+        <div class="header-right">
+            <button id="logoutBtn" class="logout-btn">Logout</button>
+        </div>
+    </div>
+    
+    <div class="admin-layout">
+        <nav class="admin-sidebar">
+            <ul>
+                <li class="active" id="nav-overview">📊 Overview</li>
+                <li id="nav-farmers">👨🌾 Farmers</li>
+                <li id="nav-fields">🌾 Fields</li>
+                <li id="nav-crops">🌱 Crops</li>
+                <li id="nav-alerts">⚠️ Alerts</li>
+                <li id="nav-subsidies">💰 Subsidies</li>
+                <li id="nav-weather">🌤️ Weather</li>
+                <li id="nav-satellite">🛰️ Satellite</li>
+                <li id="nav-reports">📈 Reports</li>
+                <li id="nav-settings">⚙️ Settings</li>
+                <li id="nav-admin">Admin</li>
+            </ul>
+        </nav>
+        
+        <main class="admin-main">
+            <!-- Overview Section -->
+            <div class="admin-section" id="section-overview">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Farmers</h3>
+                        <div class="stat-number">12,847</div>
+                        <div class="stat-change positive">+234 this month</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Active Fields</h3>
+                        <div class="stat-number">28,592</div>
+                        <div class="stat-change positive">+156 this week</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Area</h3>
+                        <div class="stat-number">45,678 acres</div>
+                        <div class="stat-change neutral">No change</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Active Alerts</h3>
+                        <div class="stat-number">23</div>
+                        <div class="stat-change negative">+5 today</div>
+                    </div>
+                </div>
+                
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3>Farmer Registration Trend</h3>
+                        <canvas id="registrationChart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Crop Distribution</h3>
+                        <canvas id="cropChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="recent-activity">
+                    <h3>Recent Activity</h3>
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <span class="activity-time">2 min ago</span>
+                            <span class="activity-text">New farmer registered in Tamil Nadu</span>
+                        </div>
+                        <div class="activity-item">
+                            <span class="activity-time">15 min ago</span>
+                            <span class="activity-text">Pest alert issued for Karnataka region</span>
+                        </div>
+                        <div class="activity-item">
+                            <span class="activity-time">1 hour ago</span>
+                            <span class="activity-text">Weather warning for Maharashtra</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Farmers Section -->
+            <div class="admin-section" id="section-farmers" style="display:none;">
+                <div class="section-header">
+                    <h2>Farmer Management</h2>
+                    <div class="section-controls">
+                        <input type="text" id="farmerSearch" placeholder="Search farmers...">
+                        <select id="stateFilter">
+                            <option value="">All States</option>
+                            <option value="tamil_nadu">Tamil Nadu</option>
+                            <option value="karnataka">Karnataka</option>
+                            <option value="maharashtra">Maharashtra</option>
+                            <option value="punjab">Punjab</option>
+                        </select>
+                        <button class="add-btn">+ Add Farmer</button>
+                    </div>
+                </div>
+                <div class="data-table">
+                    <table id="farmersTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Location</th>
+                                <th>Fields</th>
+                                <th>Total Area</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="farmersTableBody">
+                            <!-- Farmer data will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Fields Section -->
+            <div class="admin-section" id="section-fields" style="display:none;">
+                <div class="section-header">
+                    <h2>Field Monitoring</h2>
+                    <div class="section-controls">
+                        <select id="fieldStatusFilter">
+                            <option value="">All Status</option>
+                            <option value="healthy">Healthy</option>
+                            <option value="warning">Warning</option>
+                            <option value="critical">Critical</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="fields-grid" id="fieldsGrid">
+                    <!-- Field cards will be populated here -->
+                </div>
+            </div>
+            
+            <!-- Crops Section -->
+            <div class="admin-section" id="section-crops" style="display:none;">
+                <div class="section-header">
+                    <h2>Crop Analytics</h2>
+                    <div class="section-controls">
+                        <select id="cropFilter">
+                            <option value="">All Crops</option>
+                            <option value="rice">Rice</option>
+                            <option value="wheat">Wheat</option>
+                            <option value="cotton">Cotton</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="crop-stats">
+                    <div class="crop-card">
+                        <h4>Rice</h4>
+                        <div class="crop-area">15,234 acres</div>
+                        <div class="crop-farmers">3,456 farmers</div>
+                    </div>
+                    <div class="crop-card">
+                        <h4>Wheat</h4>
+                        <div class="crop-area">12,567 acres</div>
+                        <div class="crop-farmers">2,890 farmers</div>
+                    </div>
+                    <div class="crop-card">
+                        <h4>Cotton</h4>
+                        <div class="crop-area">8,901 acres</div>
+                        <div class="crop-farmers">1,234 farmers</div>
+                    </div>
+                </div>
+                
+                <!-- Market Prices Section -->
+                <div class="market-section">
+                    <h3>📈 Market Prices & Export Analysis</h3>
+                    <div class="market-grid">
+                        <div class="price-card">
+                            <h4>Rice</h4>
+                            <div class="current-price">₹2,850/quintal</div>
+                            <div class="price-change positive">+₹120 (4.4%)</div>
+                            <div class="export-demand high">Export Demand: High</div>
+                            <div class="market-trend">Trend: Bullish</div>
+                        </div>
+                        <div class="price-card">
+                            <h4>Wheat</h4>
+                            <div class="current-price">₹2,200/quintal</div>
+                            <div class="price-change negative">-₹50 (2.2%)</div>
+                            <div class="export-demand medium">Export Demand: Medium</div>
+                            <div class="market-trend">Trend: Stable</div>
+                        </div>
+                        <div class="price-card">
+                            <h4>Cotton</h4>
+                            <div class="current-price">₹6,800/quintal</div>
+                            <div class="price-change positive">+₹200 (3.0%)</div>
+                            <div class="export-demand high">Export Demand: High</div>
+                            <div class="market-trend">Trend: Bullish</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Export Analysis Section -->
+                <div class="export-section">
+                    <h3>🌍 Export Opportunities</h3>
+                    <div class="export-analysis">
+                        <div class="export-card">
+                            <h4>Top Export Crops</h4>
+                            <div class="export-list">
+                                <div class="export-item">
+                                    <span class="crop-name">Basmati Rice</span>
+                                    <span class="export-value">₹45,000 Cr</span>
+                                    <span class="growth positive">+12%</span>
+                                </div>
+                                <div class="export-item">
+                                    <span class="crop-name">Cotton</span>
+                                    <span class="export-value">₹32,000 Cr</span>
+                                    <span class="growth positive">+8%</span>
+                                </div>
+                                <div class="export-item">
+                                    <span class="crop-name">Wheat</span>
+                                    <span class="export-value">₹18,500 Cr</span>
+                                    <span class="growth negative">-3%</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="export-card">
+                            <h4>Export Recommendations</h4>
+                            <div class="recommendation-list">
+                                <div class="recommendation-item high">
+                                    <span class="priority">High Priority</span>
+                                    <span class="recommendation">Increase Rice production for Middle East markets</span>
+                                </div>
+                                <div class="recommendation-item medium">
+                                    <span class="priority">Medium Priority</span>
+                                    <span class="recommendation">Cotton quality improvement for European markets</span>
+                                </div>
+                                <div class="recommendation-item low">
+                                    <span class="priority">Low Priority</span>
+                                    <span class="recommendation">Wheat diversification for African markets</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Alerts Section -->
+            <div class="admin-section" id="section-alerts" style="display:none;">
+                <div class="section-header">
+                    <h2>Alert Management</h2>
+                    <div class="section-controls">
+                        <select id="alertTypeFilter">
+                            <option value="">All Alerts</option>
+                            <option value="pest">Pest Detection</option>
+                            <option value="disease">Disease Detection</option>
+                            <option value="deficiency">Nutrient Deficiency</option>
+                            <option value="weather">Weather Alert</option>
+                        </select>
+                        <button class="add-btn">+ Create Alert</button>
+                    </div>
+                </div>
+                
+                <!-- Crop Defect Detection Section -->
+                <div class="defect-detection-section">
+                    <h3>🔍 Crop Defect Detection & Treatment</h3>
+                    <div class="defect-grid">
+                        <div class="defect-card critical">
+                            <div class="defect-header">
+                                <h4>🐛 Brown Plant Hopper</h4>
+                                <span class="severity critical">Critical</span>
+                            </div>
+                            <div class="defect-details">
+                                <p><strong>Crop:</strong> Rice</p>
+                                <p><strong>Location:</strong> Tamil Nadu - Field #TN001</p>
+                                <p><strong>Detection:</strong> AI Image Analysis</p>
+                                <p><strong>Confidence:</strong> 94%</p>
+                            </div>
+                            <div class="treatment-section">
+                                <h5>Recommended Treatment:</h5>
+                                <div class="chemical-treatment">
+                                    <span class="chemical-name">Imidacloprid 17.8% SL</span>
+                                    <span class="dosage">0.5ml/L water</span>
+                                </div>
+                                <div class="application-method">Foliar spray every 15 days</div>
+                            </div>
+                        </div>
+                        
+                        <div class="defect-card warning">
+                            <div class="defect-header">
+                                <h4>🍄 Leaf Blight</h4>
+                                <span class="severity warning">Warning</span>
+                            </div>
+                            <div class="defect-details">
+                                <p><strong>Crop:</strong> Wheat</p>
+                                <p><strong>Location:</strong> Punjab - Field #PB045</p>
+                                <p><strong>Detection:</strong> Drone Surveillance</p>
+                                <p><strong>Confidence:</strong> 87%</p>
+                            </div>
+                            <div class="treatment-section">
+                                <h5>Recommended Treatment:</h5>
+                                <div class="chemical-treatment">
+                                    <span class="chemical-name">Propiconazole 25% EC</span>
+                                    <span class="dosage">1ml/L water</span>
+                                </div>
+                                <div class="application-method">Spray at early infection stage</div>
+                            </div>
+                        </div>
+                        
+                        <div class="defect-card medium">
+                            <div class="defect-header">
+                                <h4>🌱 Nitrogen Deficiency</h4>
+                                <span class="severity medium">Medium</span>
+                            </div>
+                            <div class="defect-details">
+                                <p><strong>Crop:</strong> Cotton</p>
+                                <p><strong>Location:</strong> Maharashtra - Field #MH023</p>
+                                <p><strong>Detection:</strong> Soil Analysis</p>
+                                <p><strong>Confidence:</strong> 91%</p>
+                            </div>
+                            <div class="treatment-section">
+                                <h5>Recommended Treatment:</h5>
+                                <div class="chemical-treatment">
+                                    <span class="chemical-name">Urea 46% N</span>
+                                    <span class="dosage">50kg/acre</span>
+                                </div>
+                                <div class="application-method">Apply with irrigation</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- General Alerts List -->
+                <div class="general-alerts-section">
+                    <h3>⚠️ General Alerts</h3>
+                    <div class="alerts-list" id="alertsList">
+                        <div class="alert-item critical">
+                            <div class="alert-header">
+                                <span class="alert-type">🌡️ Heat Wave Warning</span>
+                                <span class="alert-time">2 hours ago</span>
+                            </div>
+                            <div class="alert-content">
+                                <p>Extreme heat conditions expected in Karnataka region. Temperature may reach 42°C.</p>
+                                <div class="alert-actions">
+                                    <button class="action-btn">Send SMS</button>
+                                    <button class="action-btn">Mark Resolved</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="alert-item warning">
+                            <div class="alert-header">
+                                <span class="alert-type">🌧️ Heavy Rainfall Alert</span>
+                                <span class="alert-time">6 hours ago</span>
+                            </div>
+                            <div class="alert-content">
+                                <p>Heavy rainfall predicted in Tamil Nadu. Farmers advised to harvest ready crops.</p>
+                                <div class="alert-actions">
+                                    <button class="action-btn">Send SMS</button>
+                                    <button class="action-btn">Mark Resolved</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Subsidies Section -->
+            <div class="admin-section" id="section-subsidies" style="display:none;">
+                <div class="section-header">
+                    <h2>Subsidy Management</h2>
+                    <div class="section-controls">
+                        <select id="subsidyTypeFilter">
+                            <option value="">All Types</option>
+                            <option value="seed">Seed Subsidy</option>
+                            <option value="fertilizer">Fertilizer Subsidy</option>
+                            <option value="equipment">Equipment Subsidy</option>
+                            <option value="insurance">Crop Insurance</option>
+                        </select>
+                        <select id="subsidyStatusFilter">
+                            <option value="">All Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="approved">Approved</option>
+                            <option value="disbursed">Disbursed</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                        <button class="add-btn">+ New Subsidy Scheme</button>
+                    </div>
+                </div>
+                <div class="subsidy-stats">
+                    <div class="stat-card">
+                        <h3>Total Disbursed</h3>
+                        <div class="stat-number">₹2.4 Cr</div>
+                        <div class="stat-change positive">+12% this quarter</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Pending Applications</h3>
+                        <div class="stat-number">1,234</div>
+                        <div class="stat-change negative">+45 today</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Approved This Month</h3>
+                        <div class="stat-number">567</div>
+                        <div class="stat-change positive">+23% vs last month</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Average Processing Time</h3>
+                        <div class="stat-number">7.2 days</div>
+                        <div class="stat-change positive">-1.3 days improved</div>
+                    </div>
+                </div>
+                <div class="data-table">
+                    <table id="subsidiesTable">
+                        <thead>
+                            <tr>
+                                <th>Application ID</th>
+                                <th>Farmer Name</th>
+                                <th>Subsidy Type</th>
+                                <th>Amount</th>
+                                <th>Applied Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="subsidiesTableBody">
+                            <!-- Subsidy data will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Weather Section -->
+            <div class="admin-section" id="section-weather" style="display:none;">
+                <div class="section-header">
+                    <h2>Weather Monitoring</h2>
+                    <div class="section-controls">
+                        <select id="regionFilter">
+                            <option value="">All Regions</option>
+                            <option value="north">North India</option>
+                            <option value="south">South India</option>
+                            <option value="east">East India</option>
+                            <option value="west">West India</option>
+                        </select>
+                        <button class="add-btn">+ Issue Weather Alert</button>
+                    </div>
+                </div>
+                <div class="weather-grid">
+                    <div class="weather-card">
+                        <h4>🌡️ Tamil Nadu</h4>
+                        <div class="weather-temp">32°C</div>
+                        <div class="weather-condition">Partly Cloudy</div>
+                        <div class="weather-alert warning">Heat Wave Warning</div>
+                        <div class="mt-2">
+                            <small>Humidity: 65% | Wind: 12 km/h</small>
+                        </div>
+                    </div>
+                    <div class="weather-card">
+                        <h4>🌧️ Karnataka</h4>
+                        <div class="weather-temp">28°C</div>
+                        <div class="weather-condition">Light Rain</div>
+                        <div class="weather-alert info">Good for Planting</div>
+                        <div class="mt-2">
+                            <small>Humidity: 78% | Wind: 8 km/h</small>
+                        </div>
+                    </div>
+                    <div class="weather-card">
+                        <h4>☀️ Maharashtra</h4>
+                        <div class="weather-temp">35°C</div>
+                        <div class="weather-condition">Clear Sky</div>
+                        <div class="weather-alert warning">Drought Risk</div>
+                        <div class="mt-2">
+                            <small>Humidity: 45% | Wind: 15 km/h</small>
+                        </div>
+                    </div>
+                    <div class="weather-card">
+                        <h4>🌤️ Punjab</h4>
+                        <div class="weather-temp">30°C</div>
+                        <div class="weather-condition">Overcast</div>
+                        <div class="weather-alert info">Optimal Conditions</div>
+                        <div class="mt-2">
+                            <small>Humidity: 70% | Wind: 10 km/h</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="charts-grid mt-3">
+                    <div class="chart-card">
+                        <h3>7-Day Weather Forecast</h3>
+                        <canvas id="weatherChart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Rainfall Distribution</h3>
+                        <canvas id="rainfallChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Satellite Section -->
+            <div class="admin-section" id="section-satellite" style="display:none;">
+                <div class="section-header">
+                    <h2>Satellite Command & Control</h2>
+                    <div class="section-controls">
+                        <select id="satelliteFilter">
+                            <option value="">All Satellites</option>
+                            <option value="cartosat">Cartosat-3</option>
+                            <option value="resourcesat">ResourceSat-2A</option>
+                            <option value="sentinel">Sentinel-2</option>
+                        </select>
+                        <button class="add-btn">+ Schedule Scan</button>
+                    </div>
+                </div>
+                
+                <!-- Satellite Command Panel -->
+                <div class="satellite-command-section">
+                    <h3>📡 Satellite Command Panel</h3>
+                    <div class="command-grid">
+                        <div class="command-card">
+                            <h4>Region Scan Command</h4>
+                            <div class="command-form">
+                                <div class="form-group">
+                                    <label>Select Region:</label>
+                                    <select id="regionSelect">
+                                        <option value="">Choose Region</option>
+                                        <option value="tn_001">Tamil Nadu - Thanjavur</option>
+                                        <option value="pb_045">Punjab - Ludhiana</option>
+                                        <option value="mh_023">Maharashtra - Nashik</option>
+                                        <option value="ka_067">Karnataka - Mysore</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Scan Type:</label>
+                                    <select id="scanType">
+                                        <option value="crop_health">Crop Health Analysis</option>
+                                        <option value="pest_detection">Pest Detection</option>
+                                        <option value="water_stress">Water Stress Monitoring</option>
+                                        <option value="yield_prediction">Yield Prediction</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Priority Level:</label>
+                                    <select id="priorityLevel">
+                                        <option value="normal">Normal</option>
+                                        <option value="high">High</option>
+                                        <option value="urgent">Urgent</option>
+                                    </select>
+                                </div>
+                                <button class="command-btn" onclick="initiateScan()">🛰️ Initiate Scan</button>
+                            </div>
+                        </div>
+                        
+                        <div class="satellite-status-card">
+                            <h4>Satellite Status</h4>
+                            <div class="satellite-list">
+                                <div class="satellite-item active">
+                                    <span class="sat-name">Cartosat-3</span>
+                                    <span class="sat-status online">Online</span>
+                                    <span class="sat-coverage">Coverage: 85%</span>
+                                </div>
+                                <div class="satellite-item active">
+                                    <span class="sat-name">ResourceSat-2A</span>
+                                    <span class="sat-status online">Online</span>
+                                    <span class="sat-coverage">Coverage: 92%</span>
+                                </div>
+                                <div class="satellite-item maintenance">
+                                    <span class="sat-name">Sentinel-2</span>
+                                    <span class="sat-status maintenance">Maintenance</span>
+                                    <span class="sat-coverage">Coverage: 0%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Active Scans Section -->
+                <div class="active-scans-section">
+                    <h3>🔄 Active Scans</h3>
+                    <div class="scans-grid">
+                        <div class="scan-card processing">
+                            <div class="scan-header">
+                                <h4>Tamil Nadu - Crop Health</h4>
+                                <span class="scan-status processing">Processing</span>
+                            </div>
+                            <div class="scan-details">
+                                <p><strong>Satellite:</strong> Cartosat-3</p>
+                                <p><strong>Area:</strong> 2,450 acres</p>
+                                <p><strong>Started:</strong> 15 min ago</p>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 65%"></div>
+                                </div>
+                                <span class="progress-text">65% Complete</span>
+                            </div>
+                        </div>
+                        
+                        <div class="scan-card completed">
+                            <div class="scan-header">
+                                <h4>Punjab - Pest Detection</h4>
+                                <span class="scan-status completed">Completed</span>
+                            </div>
+                            <div class="scan-details">
+                                <p><strong>Satellite:</strong> ResourceSat-2A</p>
+                                <p><strong>Area:</strong> 1,890 acres</p>
+                                <p><strong>Completed:</strong> 2 hours ago</p>
+                                <button class="view-report-btn">📊 View Report</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Satellite Reports Section -->
+                <div class="satellite-reports-section">
+                    <h3>📄 Generated Reports</h3>
+                    <div class="reports-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Report ID</th>
+                                    <th>Region</th>
+                                    <th>Scan Type</th>
+                                    <th>Date</th>
+                                    <th>Findings</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>SAT-2024-001</td>
+                                    <td>Tamil Nadu - Thanjavur</td>
+                                    <td>Crop Health</td>
+                                    <td>2024-01-15</td>
+                                    <td><span class="finding warning">3 Issues Found</span></td>
+                                    <td>
+                                        <button class="action-btn">📥 Download</button>
+                                        <button class="action-btn">👁️ View</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>SAT-2024-002</td>
+                                    <td>Punjab - Ludhiana</td>
+                                    <td>Pest Detection</td>
+                                    <td>2024-01-14</td>
+                                    <td><span class="finding critical">5 Critical Issues</span></td>
+                                    <td>
+                                        <button class="action-btn">📥 Download</button>
+                                        <button class="action-btn">👁️ View</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>SAT-2024-003</td>
+                                    <td>Maharashtra - Nashik</td>
+                                    <td>Water Stress</td>
+                                    <td>2024-01-13</td>
+                                    <td><span class="finding healthy">No Issues</span></td>
+                                    <td>
+                                        <button class="action-btn">📥 Download</button>
+                                        <button class="action-btn">👁️ View</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Reports Section -->
+            <div class="admin-section" id="section-reports" style="display:none;">
+                <div class="section-header">
+                    <h2>Reports & Analytics</h2>
+                    <div class="section-controls">
+                        <select id="reportPeriod">
+                            <option value="weekly">Weekly</option>
+                            <option value="monthly">Monthly</option>
+                            <option value="quarterly">Quarterly</option>
+                            <option value="yearly">Yearly</option>
+                        </select>
+                        <button class="add-btn">+ Generate Custom Report</button>
+                    </div>
+                </div>
+                <div class="reports-list">
+                    <div class="report-item">
+                        <div>
+                            <h4>📊 Farmer Registration Report</h4>
+                            <p>Monthly analysis of new farmer registrations and demographics</p>
+                            <small>Generated: 2 hours ago | Size: 2.3 MB</small>
+                        </div>
+                        <button class="download-btn">📥 Download</button>
+                    </div>
+                    <div class="report-item">
+                        <div>
+                            <h4>🌾 Crop Yield Analysis</h4>
+                            <p>Comprehensive crop performance and yield predictions</p>
+                            <small>Generated: 1 day ago | Size: 4.7 MB</small>
+                        </div>
+                        <button class="download-btn">📥 Download</button>
+                    </div>
+                    <div class="report-item">
+                        <div>
+                            <h4>💰 Subsidy Disbursement Report</h4>
+                            <p>Financial summary of all subsidy schemes and payments</p>
+                            <small>Generated: 3 days ago | Size: 1.8 MB</small>
+                        </div>
+                        <button class="download-btn">📥 Download</button>
+                    </div>
+                    <div class="report-item">
+                        <div>
+                            <h4>🌡️ Weather Impact Assessment</h4>
+                            <p>Analysis of weather patterns on crop productivity</p>
+                            <small>Generated: 1 week ago | Size: 3.2 MB</small>
+                        </div>
+                        <button class="download-btn">📥 Download</button>
+                    </div>
+                    <div class="report-item">
+                        <div>
+                            <h4>⚠️ Alert Effectiveness Report</h4>
+                            <p>Performance metrics of issued alerts and farmer responses</p>
+                            <small>Generated: 2 weeks ago | Size: 1.5 MB</small>
+                        </div>
+                        <button class="download-btn">📥 Download</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Settings Section -->
+            <div class="admin-section" id="section-settings" style="display:none;">
+                <div class="section-header">
+                    <h2>System Settings</h2>
+                </div>
+                <div class="settings-grid">
+                    <div class="setting-card">
+                        <h4>👥 User Management</h4>
+                        <p>Manage admin users, roles, and permissions for the AgriStack platform</p>
+                        <button onclick="openUserManagement()">Manage Users</button>
+                    </div>
+                    <div class="setting-card">
+                        <h4>🔔 Notification Settings</h4>
+                        <p>Configure alert thresholds, notification channels, and automated messages</p>
+                        <button onclick="openNotificationSettings()">Configure Alerts</button>
+                    </div>
+                    <div class="setting-card">
+                        <h4>🌐 API Configuration</h4>
+                        <p>Manage external API integrations, weather services, and data sources</p>
+                        <button onclick="openApiSettings()">API Settings</button>
+                    </div>
+                    <div class="setting-card">
+                        <h4>📊 Data Backup</h4>
+                        <p>Schedule automated backups and manage data retention policies</p>
+                        <button onclick="openBackupSettings()">Backup Settings</button>
+                    </div>
+                    <div class="setting-card">
+                        <h4>🔒 Security Settings</h4>
+                        <p>Configure authentication, encryption, and access control policies</p>
+                        <button onclick="openSecuritySettings()">Security Config</button>
+                    </div>
+                    <div class="setting-card">
+                        <h4>🎨 System Appearance</h4>
+                        <p>Customize dashboard themes, branding, and user interface elements</p>
+                        <button onclick="openAppearanceSettings()">Customize UI</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+            
+            <!-- Weather Section -->
+            <div class="admin-section" id="section-weather" style="display:none;">
+                <div class="section-header">
+                    <h2>Weather Monitoring</h2>
+                </div>
+                <div class="weather-grid">
+                    <!-- Weather data will be populated here -->
+                </div>
+            </div>
+            
+            <!-- Reports Section -->
+            <div class="admin-section" id="section-reports" style="display:none;">
+                <div class="section-header">
+                    <h2>Reports & Analytics</h2>
+                </div>
+                <div class="reports-list">
+                    <!-- Reports will be populated here -->
+                </div>
+            </div>
+            
+            <!-- Settings Section -->
+            <div class="admin-section" id="section-settings" style="display:none;">
+                <div class="section-header">
+                    <h2>System Settings</h2>
+                </div>
+                <div class="settings-content">
+                    <!-- Settings will be populated here -->
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script>
+        // Check admin authentication
+        if (!localStorage.getItem('adminLoggedIn') || localStorage.getItem('userType') !== 'admin') {
+            window.location.href = 'index.html';
+        }
+        
+        // Display admin info
+        const adminRole = localStorage.getItem('adminRole');
+        const adminId = localStorage.getItem('adminId');
+        if (adminRole && adminId) {
+            document.getElementById('adminInfo').textContent = `Welcome, ${adminRole.replace('_', ' ').toUpperCase()} - ${adminId}`;
+        }
+        
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            localStorage.removeItem('adminLoggedIn');
+            localStorage.removeItem('userType');
+            localStorage.removeItem('adminRole');
+            localStorage.removeItem('adminId');
+            window.location.href = 'index.html';
+        });
+        
+        // Navigation functionality
+        document.querySelectorAll('.admin-sidebar li').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.admin-sidebar li').forEach(li => li.classList.remove('active'));
+                this.classList.add('active');
+                
+                const sectionId = 'section-' + this.id.replace('nav-', '');
+                document.querySelectorAll('.admin-section').forEach(section => section.style.display = 'none');
+                document.getElementById(sectionId).style.display = 'block';
+            });
+        });
+        
+        // Satellite scan function
+        function initiateScan() {
+            const region = document.getElementById('regionSelect').value;
+            const scanType = document.getElementById('scanType').value;
+            const priority = document.getElementById('priorityLevel').value;
+            
+            if (!region || !scanType || !priority) {
+                alert('Please fill all fields before initiating scan');
+                return;
+            }
+            
+            alert(`Satellite scan initiated!\nRegion: ${region}\nScan Type: ${scanType}\nPriority: ${priority}\n\nScan will begin in 2-3 minutes.`);
+        }
+    </script>
+</body>
+</html>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Modal for Adding/Editing Items -->
+    <div id="modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="modalBody">
+                <!-- Modal content will be populated dynamically -->
+            </div>
+        </div>
+    </div>
+    
+    <script src="admin-script.js"></script>
+</body>
+</html>

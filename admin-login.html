@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AgriStack Admin - Login</title>
+    <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>🏛️ AgriStack Admin</h1>
+                <p>Government Agricultural Management System</p>
+            </div>
+            <form id="adminLoginForm" class="auth-form">
+                <h2>Admin Login</h2>
+                <div class="form-group">
+                    <input type="text" id="adminId" placeholder="Admin ID" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="adminPassword" placeholder="Password" required>
+                </div>
+                <div class="form-group">
+                    <select id="adminRole" required>
+                        <option value="">Select Role</option>
+                        <option value="super_admin">Super Admin</option>
+                        <option value="state_admin">State Admin</option>
+                        <option value="district_admin">District Admin</option>
+                        <option value="block_admin">Block Admin</option>
+                    </select>
+                </div>
+                <button type="submit" class="auth-btn">Login to Admin Panel</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.getElementById('adminLoginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const adminId = document.getElementById('adminId').value;
+            const password = document.getElementById('adminPassword').value;
+            const role = document.getElementById('adminRole').value;
+            
+            // Mock authentication - in real system, verify with backend
+            if (adminId && password && role) {
+                localStorage.setItem('adminLoggedIn', 'true');
+                localStorage.setItem('adminRole', role);
+                localStorage.setItem('adminId', adminId);
+                window.location.href = 'admin-dashboard.html';
+            } else {
+                alert('Please fill all fields');
+            }
+        });
+    </script>
+</body>
+</html>

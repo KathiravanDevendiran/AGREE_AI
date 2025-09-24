@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>AgriStack - Field Setup</title>
-    <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="setup-style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
 </head>
 <body>
@@ -15,94 +15,171 @@
             </div>
             <form id="setupForm" class="setup-form">
                 <div class="form-section">
-                    <h3>Farm Information</h3>
+                    <h3>Personal Information</h3>
                     <div class="form-group">
-                        <input type="text" id="farmName" placeholder="Farm Name" required>
+                        <input type="text" id="ownerName" placeholder="Owner's Full Name" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" id="location" placeholder="Location/Address" required>
+                        <select id="language" required>
+                            <option value="">Select Language / भाषा चुनें</option>
+                            <option value="english">English</option>
+                            <option value="hindi">हिंदी (Hindi)</option>
+                            <option value="tamil">தமிழ் (Tamil)</option>
+                            <option value="telugu">తెలుగు (Telugu)</option>
+                            <option value="kannada">ಕನ್ನಡ (Kannada)</option>
+                            <option value="malayalam">മലയാളം (Malayalam)</option>
+                            <option value="marathi">मराठी (Marathi)</option>
+                            <option value="gujarati">ગુજરાતી (Gujarati)</option>
+                            <option value="bengali">বাংলা (Bengali)</option>
+                            <option value="punjabi">ਪੰਜਾਬੀ (Punjabi)</option>
+                            <option value="odia">ଓଡ଼ିଆ (Odia)</option>
+                            <option value="assamese">অসমীয়া (Assamese)</option>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <input type="number" id="totalArea" placeholder="Total Area (acres)" required>
+                        <input type="text" id="region" placeholder="Region/District" required>
                     </div>
                 </div>
 
                 <div class="form-section">
-                    <h3>Field 1</h3>
+                    <h3>Land 1 Details</h3>
                     <div class="form-group">
-                        <input type="text" id="field1Name" placeholder="Field Name" value="Field 1" required>
+                        <input type="text" id="land1Number" placeholder="Registered Land Number/Survey Number" required>
                     </div>
                     <div class="form-group">
-                        <select id="field1Crop" required>
+                        <input type="text" id="land1Latitude" placeholder="Latitude (e.g., 12.9716)" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="land1Longitude" placeholder="Longitude (e.g., 77.5946)" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" id="land1Area" placeholder="Area (acres)" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <select id="land1Crop" required>
                             <option value="">Select Crop</option>
-                            <option value="rice">Rice</option>
-                            <option value="wheat">Wheat</option>
-                            <option value="corn">Corn</option>
-                            <option value="cotton">Cotton</option>
-                            <option value="sugarcane">Sugarcane</option>
-                            <option value="tomato">Tomato</option>
-                            <option value="potato">Potato</option>
+                            <option value="rice">Rice (धान/அரிசி)</option>
+                            <option value="wheat">Wheat (गेहूं/கோதுமை)</option>
+                            <option value="corn">Corn (मक्का/சோளம்)</option>
+                            <option value="cotton">Cotton (कपास/பருத்தி)</option>
+                            <option value="sugarcane">Sugarcane (गन्ना/கரும்பு)</option>
+                            <option value="tomato">Tomato (टमाटर/தக்காளி)</option>
+                            <option value="potato">Potato (आलू/உருளைக்கிழங்கு)</option>
+                            <option value="onion">Onion (प्याज/வெங்காயம்)</option>
+                            <option value="groundnut">Groundnut (मूंगफली/நிலக்கடலை)</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <input type="number" id="field1Area" placeholder="Area (acres)" required>
+                        <select id="land1CropType" required>
+                            <option value="">Select Crop Type</option>
+                            <option value="kharif">Kharif (खरीफ/கரீஃப்)</option>
+                            <option value="rabi">Rabi (रबी/ரபி)</option>
+                            <option value="zaid">Zaid (जायद/ஜாயித்)</option>
+                            <option value="perennial">Perennial (बारहमासी/வருடம் முழுவதும்)</option>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <input type="date" id="field1PlantDate" required>
-                        <label>Planting Date</label>
+                        <input type="text" id="land1SoilReport" placeholder="Soil Test Report Number (Government)" required>
                     </div>
+                    <div class="form-group">
+                        <input type="file" id="land1SoilFile" accept=".pdf,.jpg,.jpeg,.png" title="Upload Soil Test Report (Optional)">
+                        <label for="land1SoilFile" class="file-label">📄 Upload Soil Report (Optional)</label>
+                    </div>
+
                 </div>
 
                 <div class="form-section">
-                    <h3>Field 2 (Optional)</h3>
+                    <h3>Land 2 Details (Optional)</h3>
                     <div class="form-group">
-                        <input type="text" id="field2Name" placeholder="Field Name" value="Field 2">
+                        <input type="text" id="land2Number" placeholder="Registered Land Number/Survey Number">
                     </div>
                     <div class="form-group">
-                        <select id="field2Crop">
+                        <input type="text" id="land2Latitude" placeholder="Latitude">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="land2Longitude" placeholder="Longitude">
+                    </div>
+                    <div class="form-group">
+                        <input type="number" id="land2Area" placeholder="Area (acres)" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <select id="land2Crop">
                             <option value="">Select Crop</option>
-                            <option value="rice">Rice</option>
-                            <option value="wheat">Wheat</option>
-                            <option value="corn">Corn</option>
-                            <option value="cotton">Cotton</option>
-                            <option value="sugarcane">Sugarcane</option>
-                            <option value="tomato">Tomato</option>
-                            <option value="potato">Potato</option>
+                            <option value="rice">Rice (धान/அரிசி)</option>
+                            <option value="wheat">Wheat (गेहूं/கோதுமை)</option>
+                            <option value="corn">Corn (मक्का/சோளம்)</option>
+                            <option value="cotton">Cotton (कपास/பருத்தி)</option>
+                            <option value="sugarcane">Sugarcane (गन्ना/கரும்பு)</option>
+                            <option value="tomato">Tomato (टमाटर/தக்காளி)</option>
+                            <option value="potato">Potato (आलू/உருளைக்கிழங்கு)</option>
+                            <option value="onion">Onion (प्याज/வெங்காயம்)</option>
+                            <option value="groundnut">Groundnut (मूंगफली/நிலக்கடலை)</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <input type="number" id="field2Area" placeholder="Area (acres)">
+                        <select id="land2CropType">
+                            <option value="">Select Crop Type</option>
+                            <option value="kharif">Kharif (खरीफ/கரீஃப்)</option>
+                            <option value="rabi">Rabi (रबी/ரபி)</option>
+                            <option value="zaid">Zaid (जायद/ஜாயித்)</option>
+                            <option value="perennial">Perennial (बारहमासी/வருடம் முழுவதும்)</option>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <input type="date" id="field2PlantDate">
-                        <label>Planting Date</label>
+                        <input type="text" id="land2SoilReport" placeholder="Soil Test Report Number (Government)">
                     </div>
+                    <div class="form-group">
+                        <input type="file" id="land2SoilFile" accept=".pdf,.jpg,.jpeg,.png" title="Upload Soil Test Report (Optional)">
+                        <label for="land2SoilFile" class="file-label">📄 Upload Soil Report (Optional)</label>
+                    </div>
+
                 </div>
 
                 <div class="form-section">
-                    <h3>Field 3 (Optional)</h3>
+                    <h3>Land 3 Details (Optional)</h3>
                     <div class="form-group">
-                        <input type="text" id="field3Name" placeholder="Field Name" value="Field 3">
+                        <input type="text" id="land3Number" placeholder="Registered Land Number/Survey Number">
                     </div>
                     <div class="form-group">
-                        <select id="field3Crop">
+                        <input type="text" id="land3Latitude" placeholder="Latitude">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="land3Longitude" placeholder="Longitude">
+                    </div>
+                    <div class="form-group">
+                        <input type="number" id="land3Area" placeholder="Area (acres)" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <select id="land3Crop">
                             <option value="">Select Crop</option>
-                            <option value="rice">Rice</option>
-                            <option value="wheat">Wheat</option>
-                            <option value="corn">Corn</option>
-                            <option value="cotton">Cotton</option>
-                            <option value="sugarcane">Sugarcane</option>
-                            <option value="tomato">Tomato</option>
-                            <option value="potato">Potato</option>
+                            <option value="rice">Rice (धान/அரிசி)</option>
+                            <option value="wheat">Wheat (गेहूं/கோதுமை)</option>
+                            <option value="corn">Corn (मक्का/சோளம்)</option>
+                            <option value="cotton">Cotton (कपास/பருத்தி)</option>
+                            <option value="sugarcane">Sugarcane (गन्ना/கரும்பு)</option>
+                            <option value="tomato">Tomato (टमाटर/தக்காளி)</option>
+                            <option value="potato">Potato (आलू/உருளைக்கிழங்கு)</option>
+                            <option value="onion">Onion (प्याज/வெங்காயம்)</option>
+                            <option value="groundnut">Groundnut (मूंगफली/நிலக்கடலை)</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <input type="number" id="field3Area" placeholder="Area (acres)">
+                        <select id="land3CropType">
+                            <option value="">Select Crop Type</option>
+                            <option value="kharif">Kharif (खरीफ/கரீஃப்)</option>
+                            <option value="rabi">Rabi (रबी/ரபி)</option>
+                            <option value="zaid">Zaid (जायद/ஜாயித்)</option>
+                            <option value="perennial">Perennial (बारहमासी/வருடம் முழுவதும்)</option>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <input type="date" id="field3PlantDate">
-                        <label>Planting Date</label>
+                        <input type="text" id="land3SoilReport" placeholder="Soil Test Report Number (Government)">
                     </div>
+                    <div class="form-group">
+                        <input type="file" id="land3SoilFile" accept=".pdf,.jpg,.jpeg,.png" title="Upload Soil Test Report (Optional)">
+                        <label for="land3SoilFile" class="file-label">📄 Upload Soil Report (Optional)</label>
+                    </div>
+
                 </div>
 
                 <button type="submit" class="auth-btn">Complete Setup</button>
@@ -113,49 +190,61 @@
         document.getElementById('setupForm').addEventListener('submit', (e) => {
             e.preventDefault();
             
-            // Save field data
-            const fieldData = {
-                farmName: document.getElementById('farmName').value,
-                location: document.getElementById('location').value,
-                totalArea: document.getElementById('totalArea').value,
-                fields: []
+            // Save farmer and land data
+            const farmerData = {
+                ownerName: document.getElementById('ownerName').value,
+                language: document.getElementById('language').value,
+                region: document.getElementById('region').value,
+                lands: []
             };
 
-            // Add Field 1 (required)
-            fieldData.fields.push({
-                name: document.getElementById('field1Name').value,
-                crop: document.getElementById('field1Crop').value,
-                area: document.getElementById('field1Area').value,
-                plantDate: document.getElementById('field1PlantDate').value
+            // Add Land 1 (required)
+            farmerData.lands.push({
+                landNumber: document.getElementById('land1Number').value,
+                latitude: document.getElementById('land1Latitude').value,
+                longitude: document.getElementById('land1Longitude').value,
+                area: document.getElementById('land1Area').value,
+                crop: document.getElementById('land1Crop').value,
+                cropType: document.getElementById('land1CropType').value,
+                soilReportNumber: document.getElementById('land1SoilReport').value,
+                soilReportFile: document.getElementById('land1SoilFile').files[0]?.name || ''
             });
 
-            // Add Field 2 if filled
-            if (document.getElementById('field2Crop').value) {
-                fieldData.fields.push({
-                    name: document.getElementById('field2Name').value,
-                    crop: document.getElementById('field2Crop').value,
-                    area: document.getElementById('field2Area').value,
-                    plantDate: document.getElementById('field2PlantDate').value
+            // Add Land 2 if filled
+            if (document.getElementById('land2Crop').value) {
+                farmerData.lands.push({
+                    landNumber: document.getElementById('land2Number').value,
+                    latitude: document.getElementById('land2Latitude').value,
+                    longitude: document.getElementById('land2Longitude').value,
+                    area: document.getElementById('land2Area').value,
+                    crop: document.getElementById('land2Crop').value,
+                    cropType: document.getElementById('land2CropType').value,
+                    soilReportNumber: document.getElementById('land2SoilReport').value,
+                    soilReportFile: document.getElementById('land2SoilFile').files[0]?.name || ''
                 });
             }
 
-            // Add Field 3 if filled
-            if (document.getElementById('field3Crop').value) {
-                fieldData.fields.push({
-                    name: document.getElementById('field3Name').value,
-                    crop: document.getElementById('field3Crop').value,
-                    area: document.getElementById('field3Area').value,
-                    plantDate: document.getElementById('field3PlantDate').value
+            // Add Land 3 if filled
+            if (document.getElementById('land3Crop').value) {
+                farmerData.lands.push({
+                    landNumber: document.getElementById('land3Number').value,
+                    latitude: document.getElementById('land3Latitude').value,
+                    longitude: document.getElementById('land3Longitude').value,
+                    area: document.getElementById('land3Area').value,
+                    crop: document.getElementById('land3Crop').value,
+                    cropType: document.getElementById('land3CropType').value,
+                    soilReportNumber: document.getElementById('land3SoilReport').value,
+                    soilReportFile: document.getElementById('land3SoilFile').files[0]?.name || ''
                 });
             }
 
-            localStorage.setItem('farmData', JSON.stringify(fieldData));
+            localStorage.setItem('farmData', JSON.stringify(farmerData));
             localStorage.setItem('setupComplete', 'true');
             window.location.href = 'builder.html';
         });
 
-        // Check if user is logged in
-        if (!localStorage.getItem('userLoggedIn')) {
+        // Check if user is logged in and is a farmer
+        if (!localStorage.getItem('userLoggedIn') || localStorage.getItem('userType') !== 'farmer') {
             window.location.href = 'index.html';
         }
     </script>

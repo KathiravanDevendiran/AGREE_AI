@@ -10,8 +10,13 @@
 </head>
 <body>
     <div class="header">
-        <h1>🌾 AgriStack Dashboard</h1>
-        <p>விவசாய நிலத்தின் நிலைமையை பாருங்கள்!</p>
+        <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; padding: 0 2rem;">
+            <div>
+                <h1>🌾 AgriStack Dashboard</h1>
+                <p>விவசாய நிலத்தின் நிலைமையை பாருங்கள்!</p>
+            </div>
+            <button id="farmerLogout" style="background: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600;">Logout</button>
+        </div>
     </div>
     <div class="dashboard-layout">
         <nav class="sidebar">
@@ -23,6 +28,7 @@
                 <li id="nav-irrigation">Irrigation</li>
                 <li id="nav-yield">Yield</li>
                 <li id="nav-defect">Crop Defect Detection</li>
+                <li id="nav-marketplace">🛒 Marketplace</li>
                 <li id="nav-map">Map</li>
             </ul>
         </nav>
@@ -108,6 +114,33 @@
                     </div>
                 </div>
             </div>
+            <div class="dashboard-section" id="section-marketplace" style="display:none;">
+                <div class="section-card">
+                    <h2>🛒 Agricultural Marketplace</h2>
+                    <p>Buy quality manure and fertilizers for your crops</p>
+                    
+                    <div class="marketplace-categories">
+                        <button class="category-btn active" data-category="all">All Products</button>
+                        <button class="category-btn" data-category="fertilizers">Fertilizers</button>
+                        <button class="category-btn" data-category="manure">Organic Manure</button>
+                        <button class="category-btn" data-category="seeds">Seeds</button>
+                    </div>
+                    
+                    <div class="products-grid" id="productsGrid">
+                        <!-- Products will be populated here -->
+                    </div>
+                </div>
+                
+                <div class="section-card" id="cartSection" style="display:none;">
+                    <h3>🛒 Shopping Cart</h3>
+                    <div id="cartItems"></div>
+                    <div class="cart-total">
+                        <strong>Total: ₹<span id="cartTotal">0</span></strong>
+                        <button id="checkoutBtn" class="checkout-btn">Proceed to Checkout</button>
+                    </div>
+                </div>
+            </div>
+            
             <div class="dashboard-section" id="section-map" style="display:none;">
                 <div class="section-card field-map">
                     <h3>Field Map</h3>
@@ -120,13 +153,23 @@
         <p>&copy; 2025 AgriStack. All rights reserved.</p>
     </footer>
     <script>
-        // Check authentication
-        if (!localStorage.getItem('userLoggedIn') || !localStorage.getItem('setupComplete')) {
+        // Check authentication - only farmers can access this dashboard
+        if (!localStorage.getItem('userLoggedIn') || localStorage.getItem('userType') !== 'farmer' || !localStorage.getItem('setupComplete')) {
             window.location.href = 'index.html';
         }
+        
+        // Farmer logout functionality
+        document.getElementById('farmerLogout').addEventListener('click', () => {
+            localStorage.removeItem('userLoggedIn');
+            localStorage.removeItem('userType');
+            localStorage.removeItem('userName');
+            localStorage.removeItem('farmData');
+            localStorage.removeItem('setupComplete');
+            window.location.href = 'index.html';
+        });
 
-        // Load farm data from setup
-        const farmData = JSON.parse(localStorage.getItem('farmData') || '{}');
+        // Load farmer data from setup
+        const farmerData = JSON.parse(localStorage.getItem('farmData') || '{}');
         
         const fieldData = {
     "Field 1": {
@@ -146,39 +189,40 @@
 let chartInstance;
 
 window.addEventListener('DOMContentLoaded', () => {
-    // Update field selector with user's fields
+    // Update field selector with user's lands
     const select = document.getElementById('fieldSelect');
     select.innerHTML = '';
     
-    if (farmData.fields) {
-        farmData.fields.forEach(field => {
+    if (farmerData.lands) {
+        farmerData.lands.forEach((land, index) => {
             const option = document.createElement('option');
-            option.value = field.name;
-            option.textContent = `${field.name} (${field.crop})`;
+            option.value = `Land ${index + 1}`;
+            option.textContent = `Land ${index + 1} - ${land.crop} (${land.area} acres)`;
             select.appendChild(option);
         });
     }
     
-    // Update header with farm name
-    if (farmData.farmName) {
-        document.querySelector('.header h1').textContent = `🌾 ${farmData.farmName}`;
+    // Update header with owner name
+    if (farmerData.ownerName) {
+        document.querySelector('.header h1').textContent = `🌾 ${farmerData.ownerName}'s Farm`;
     }
-    const ndvi = document.querySelector('.field-status strong:nth-child(1)');
-    const water = document.querySelector('.field-status p:nth-child(3) strong');
-    const temp = document.querySelector('.field-status p:nth-child(4) strong');
-    const rain = document.querySelector('.field-status p:nth-child(5) strong');
-    const pest = document.querySelector('.field-status p:nth-child(6) strong');
-    const ai = document.querySelector('.field-status p:nth-child(7)');
+    const ndvi = document.getElementById('ndviVal');
+    const water = document.getElementById('waterVal');
+    const temp = document.getElementById('tempVal');
+    const rain = document.getElementById('rainVal');
+    const pest = document.getElementById('pestVal');
+    const ai = document.getElementById('aiVal');
     const ctx = document.getElementById('ndviChart').getContext('2d');
 
-    // Initial chart
+    // Initial chart - use first available field
+    const firstFieldKey = Object.keys(fieldData)[0] || "Field 1";
     chartInstance = new Chart(ctx, {
         type: 'line',
         data: {
             labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
             datasets: [{
                 label: 'NDVI',
-                data: fieldData["Field 1"].chart,
+                data: fieldData[firstFieldKey].chart,
                 borderColor: 'green',
                 fill: false
             }]
@@ -186,7 +230,8 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     select.addEventListener('change', () => {
-        const data = fieldData[select.value];
+        const selectedField = select.value.replace('Land ', 'Field ');
+        const data = fieldData[selectedField] || fieldData['Field 1'];
         ndvi.textContent = data.ndvi;
         water.textContent = data.water;
         temp.textContent = data.temp;
@@ -276,12 +321,52 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    analyzeBtn.addEventListener('click', function() {
-        // Simulate AI analysis
+    analyzeBtn.addEventListener('click', async function() {
         analyzeBtn.textContent = '🔄 Analyzing...';
         analyzeBtn.disabled = true;
         
-        setTimeout(() => {
+        try {
+            // Get image data
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = previewImg.width;
+            canvas.height = previewImg.height;
+            ctx.drawImage(previewImg, 0, 0);
+            const imageData = canvas.toDataURL('image/jpeg');
+            
+            // Send to Python backend
+            const response = await fetch('http://localhost:5000/api/analyze-crop', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ image: imageData })
+            });
+            
+            if (!response.ok) {
+                throw new Error('Analysis failed');
+            }
+            
+            const result = await response.json();
+            
+            defectsList.innerHTML = '';
+            solutionsList.innerHTML = '';
+            
+            result.detections.forEach(detection => {
+                const defectItem = document.createElement('div');
+                defectItem.innerHTML = `<p><strong>⚠️ ${detection.name}</strong> - Confidence: ${detection.confidence}%</p>`;
+                defectsList.appendChild(defectItem);
+                
+                const solutionItem = document.createElement('div');
+                solutionItem.innerHTML = `<h5>${detection.name} Solutions:</h5><ul>${detection.solutions.map(sol => `<li>${sol}</li>`).join('')}</ul>`;
+                solutionsList.appendChild(solutionItem);
+            });
+            
+            analysisResults.style.display = 'block';
+            
+        } catch (error) {
+            console.error('Analysis error:', error);
+            // Fallback to mock data if backend is not available
             const detectedDefects = ['leaf_spot', 'nutrient_deficiency'];
             
             defectsList.innerHTML = '';
@@ -300,10 +385,139 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             
             analysisResults.style.display = 'block';
+        } finally {
             analyzeBtn.textContent = '🔬 Analyze Defects';
             analyzeBtn.disabled = false;
-        }, 2000);
+        }
     });
-});</script>
+    
+    // Marketplace functionality
+    const marketplaceProducts = [
+        { id: 1, name: "NPK Fertilizer (50kg)", category: "fertilizers", price: 1200, image: "🌿", description: "Balanced NPK 10-26-26 for all crops" },
+        { id: 2, name: "Urea (50kg)", category: "fertilizers", price: 800, image: "🌿", description: "High nitrogen content for leafy growth" },
+        { id: 3, name: "Organic Cow Manure (25kg)", category: "manure", price: 300, image: "🐄", description: "Well-decomposed organic manure" },
+        { id: 4, name: "Vermicompost (20kg)", category: "manure", price: 400, image: "🪱", description: "Premium earthworm compost" },
+        { id: 5, name: "DAP Fertilizer (50kg)", category: "fertilizers", price: 1400, image: "🌿", description: "Di-ammonium phosphate for root development" },
+        { id: 6, name: "Potash (50kg)", category: "fertilizers", price: 900, image: "🌿", description: "Potassium chloride for fruit quality" },
+        { id: 7, name: "Hybrid Rice Seeds (10kg)", category: "seeds", price: 2500, image: "🌾", description: "High-yield hybrid rice variety" },
+        { id: 8, name: "Poultry Manure (30kg)", category: "manure", price: 350, image: "🐔", description: "Rich in nitrogen and phosphorus" }
+    ];
+    
+    let cart = [];
+    
+    function renderProducts(products) {
+        const grid = document.getElementById('productsGrid');
+        grid.innerHTML = products.map(product => `
+            <div class="product-card">
+                <div class="product-image">${product.image}</div>
+                <h4>${product.name}</h4>
+                <p class="product-description">${product.description}</p>
+                <div class="product-price">₹${product.price}</div>
+                <button class="add-to-cart-btn" onclick="addToCart(${product.id})">Add to Cart</button>
+            </div>
+        `).join('');
+    }
+    
+    function addToCart(productId) {
+        const product = marketplaceProducts.find(p => p.id === productId);
+        const existingItem = cart.find(item => item.id === productId);
+        
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({ ...product, quantity: 1 });
+        }
+        
+        updateCart();
+        document.getElementById('cartSection').style.display = 'block';
+    }
+    
+    function updateCart() {
+        const cartItems = document.getElementById('cartItems');
+        const cartTotal = document.getElementById('cartTotal');
+        
+        if (cart.length === 0) {
+            cartItems.innerHTML = '<p>Your cart is empty</p>';
+            cartTotal.textContent = '0';
+            return;
+        }
+        
+        cartItems.innerHTML = cart.map(item => `
+            <div class="cart-item">
+                <span>${item.image} ${item.name}</span>
+                <div class="cart-item-controls">
+                    <button onclick="changeQuantity(${item.id}, -1)">-</button>
+                    <span>${item.quantity}</span>
+                    <button onclick="changeQuantity(${item.id}, 1)">+</button>
+                    <span class="item-total">₹${item.price * item.quantity}</span>
+                    <button onclick="removeFromCart(${item.id})" class="remove-btn">×</button>
+                </div>
+            </div>
+        `).join('');
+        
+        const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        cartTotal.textContent = total;
+    }
+    
+    function changeQuantity(productId, change) {
+        const item = cart.find(item => item.id === productId);
+        if (item) {
+            item.quantity += change;
+            if (item.quantity <= 0) {
+                removeFromCart(productId);
+            } else {
+                updateCart();
+            }
+        }
+    }
+    
+    function removeFromCart(productId) {
+        cart = cart.filter(item => item.id !== productId);
+        updateCart();
+        if (cart.length === 0) {
+            document.getElementById('cartSection').style.display = 'none';
+        }
+    }
+    
+    // Category filtering
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('category-btn')) {
+            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+            e.target.classList.add('active');
+            
+            const category = e.target.dataset.category;
+            const filteredProducts = category === 'all' ? marketplaceProducts : 
+                marketplaceProducts.filter(p => p.category === category);
+            renderProducts(filteredProducts);
+        }
+    });
+    
+    // Checkout functionality
+    document.getElementById('checkoutBtn').addEventListener('click', function() {
+        if (cart.length === 0) {
+            alert('Your cart is empty!');
+            return;
+        }
+        
+        const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        const orderSummary = cart.map(item => `${item.name} x${item.quantity}`).join('\n');
+        
+        if (confirm(`Order Summary:\n${orderSummary}\n\nTotal: ₹${total}\n\nProceed with order?`)) {
+            alert('Order placed successfully! You will receive a confirmation call within 24 hours.');
+            cart = [];
+            updateCart();
+            document.getElementById('cartSection').style.display = 'none';
+        }
+    });
+    
+    // Initialize marketplace
+    renderProducts(marketplaceProducts);
+    
+    // Make functions global for onclick handlers
+    window.addToCart = addToCart;
+    window.changeQuantity = changeQuantity;
+    window.removeFromCart = removeFromCart;
+});
+    </script>
 </body>
 </html>

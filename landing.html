@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGROW - Smart Agriculture Management</title>
+    <link rel="stylesheet" href="landing.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap">
+</head>
+<body>
+    <div class="landing-container">
+        <header class="hero-section">
+            <div class="hero-content">
+                <div class="logo">
+                    <h1>🌾 AGROW</h1>
+                    <p class="tagline">Smart Agriculture Management Platform</p>
+                </div>
+                <div class="hero-text">
+                    <h2>Revolutionizing Agriculture with AI & Technology</h2>
+                    <p>Empowering farmers and government agencies with cutting-edge agricultural solutions for better crop management, yield prediction, and sustainable farming practices.</p>
+                </div>
+            </div>
+        </header>
+
+        <section class="features-section">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🌱</div>
+                    <h3>Crop Monitoring</h3>
+                    <p>Real-time field health monitoring with satellite imagery and AI-powered analysis</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI Predictions</h3>
+                    <p>Advanced yield prediction and crop defect detection using machine learning</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌤️</div>
+                    <h3>Weather Intelligence</h3>
+                    <p>Precise weather forecasting and climate-based farming recommendations</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛒</div>
+                    <h3>Marketplace</h3>
+                    <p>Direct access to quality seeds, fertilizers, and agricultural equipment</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏛️</div>
+                    <h3>Government Integration</h3>
+                    <p>Seamless subsidy management and policy implementation tools</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Analytics Dashboard</h3>
+                    <p>Comprehensive insights and data-driven decision making tools</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="access-section">
+            <div class="access-content">
+                <h2>Choose Your Access Portal</h2>
+                <p>Select the appropriate portal based on your role in the agricultural ecosystem</p>
+                
+                <div class="portal-cards">
+                    <div class="portal-card farmer-portal">
+                        <div class="portal-icon">👨‍🌾</div>
+                        <h3>Farmer Portal</h3>
+                        <p>Access crop monitoring, AI recommendations, marketplace, and farming tools</p>
+                        <ul class="portal-features">
+                            <li>✓ Field Management</li>
+                            <li>✓ Crop Health Monitoring</li>
+                            <li>✓ Weather Alerts</li>
+                            <li>✓ Marketplace Access</li>
+                            <li>✓ AI Recommendations</li>
+                        </ul>
+                        <button class="portal-btn farmer-btn" onclick="openFarmerPortal()">
+                            Enter Farmer Portal
+                        </button>
+                    </div>
+
+                    <div class="portal-card admin-portal">
+                        <div class="portal-icon">🏛️</div>
+                        <h3>Government Portal</h3>
+                        <p>Administrative dashboard for policy makers, agricultural officers, and government agencies</p>
+                        <ul class="portal-features">
+                            <li>✓ Regional Monitoring</li>
+                            <li>✓ Subsidy Management</li>
+                            <li>✓ Satellite Control</li>
+                            <li>✓ Policy Implementation</li>
+                            <li>✓ Analytics & Reports</li>
+                        </ul>
+                        <button class="portal-btn admin-btn" onclick="openAdminPortal()">
+                            Enter Government Portal
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="company-info">
+                    <h3>🌾 AGROW</h3>
+                    <p>Building the future of agriculture through technology and innovation</p>
+                </div>
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h4>Platform</h4>
+                        <a href="#" onclick="openFarmerPortal()">Farmer Portal</a>
+                        <a href="#" onclick="openAdminPortal()">Government Portal</a>
+                    </div>
+                    <div class="link-group">
+                        <h4>Company</h4>
+                        <a href="#">About Us</a>
+                        <a href="#">Contact</a>
+                        <a href="#">Support</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 AGROW. All rights reserved. | Revolutionizing Agriculture with Technology</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        function openFarmerPortal() {
+            window.open('farmer-login.html', '_blank');
+        }
+        
+        function openAdminPortal() {
+            window.open('admin-login.html', '_blank');
+        }
+    </script>
+</body>
+</html>

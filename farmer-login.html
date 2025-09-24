@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AGROW - Farmer Login</title>
+    <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>🌾 AGROW</h1>
+                <p>Farmer Portal</p>
+            </div>
+            
+            <form id="loginForm" class="auth-form">
+                <h2>Farmer Login</h2>
+                <div class="form-group">
+                    <input type="email" id="email" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="auth-btn">Login</button>
+                <p class="auth-switch">
+                    Don't have an account? <a href="#" id="showRegister">Register</a> | 
+                    <a href="index.html">Back to Home</a>
+                </p>
+            </form>
+            
+            <form id="registerForm" class="auth-form" style="display:none;">
+                <h2>Register as Farmer</h2>
+                <div class="form-group">
+                    <input type="text" id="regName" placeholder="Full Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="regEmail" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="regPassword" placeholder="Password" required>
+                </div>
+                <div class="form-group">
+                    <input type="tel" id="regPhone" placeholder="Phone Number" required>
+                </div>
+                <button type="submit" class="auth-btn">Register</button>
+                <p class="auth-switch">
+                    Already have an account? <a href="#" id="showLogin">Login</a> | 
+                    <a href="index.html">Back to Home</a>
+                </p>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('showRegister').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'block';
+        });
+
+        document.getElementById('showLogin').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'block';
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            localStorage.setItem('userLoggedIn', 'true');
+            localStorage.setItem('userType', 'farmer');
+            window.location.href = 'setup.html';
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            localStorage.setItem('userLoggedIn', 'true');
+            localStorage.setItem('userType', 'farmer');
+            localStorage.setItem('userName', document.getElementById('regName').value);
+            window.location.href = 'setup.html';
+        });
+    </script>
+</body>
+</html>

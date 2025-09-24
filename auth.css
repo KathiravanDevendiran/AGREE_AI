@@ -148,11 +148,20 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     margin-top: 10px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.auth-btn.admin-btn {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
 }
 
 .auth-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(33, 150, 243, 0.3);
+}
+
+.auth-btn.admin-btn:hover {
+    box-shadow: 0 8px 25px rgba(231, 76, 60, 0.3);
 }
 
 .auth-switch {
@@ -171,6 +180,60 @@ body {
     text-decoration: underline;
 }
 
+/* Access Selection Styles */
+.access-selection {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.access-selection h2 {
+    color: var(--text);
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+.access-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.access-btn {
+    padding: 20px 30px;
+    border: none;
+    border-radius: 15px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 160px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.farmer-btn {
+    background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-dark) 100%);
+    color: white;
+}
+
+.admin-btn {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    color: white;
+}
+
+.access-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.farmer-btn:hover {
+    box-shadow: 0 10px 30px rgba(76, 175, 80, 0.3);
+}
+
+.admin-btn:hover {
+    box-shadow: 0 10px 30px rgba(231, 76, 60, 0.3);
+}
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
     .auth-container {
@@ -187,5 +250,15 @@ body {
     
     .form-group input, .form-group select {
         padding: 12px 15px;
+    }
+    
+    .access-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .access-btn {
+        width: 100%;
+        max-width: 250px;
     }
 }
